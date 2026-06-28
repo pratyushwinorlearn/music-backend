@@ -179,10 +179,12 @@ async function resolveStreamUrl(videoId) {
     const ytdlpBin = process.env.YTDLP_PATH || "yt-dlp";
     const { stdout } = await execFileAsync(ytdlpBin, [
       "--no-playlist",
-      "-f", "bestaudio[ext=m4a]/bestaudio/best",
+      "-f", "140",
       "--get-url",
+      "--js-runtimes", "/root/.deno/bin/deno",
+      "--cookies", "/root/music-backend/cookies.txt",
       `https://www.youtube.com/watch?v=${videoId}`,
-    ], { timeout: 15000 });
+    ], { timeout: 30000, env: { ...process.env, PATH: process.env.PATH + ":/root/.deno/bin" } });
 
     const url = stdout.trim().split("\n")[0];
     if (!url) throw new Error("yt-dlp returned empty URL");
