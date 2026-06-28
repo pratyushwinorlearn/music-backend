@@ -176,7 +176,6 @@ async function resolveStreamUrl(videoId) {
 
   try {
     // yt-dlp: get best audio-only URL, no download
-    // yt-dlp: get best audio-only URL, no download
     const ytdlpBin = process.env.YTDLP_PATH || "yt-dlp";
     const { stdout } = await execFileAsync(ytdlpBin, [
       "--no-playlist",
@@ -185,7 +184,7 @@ async function resolveStreamUrl(videoId) {
       "--extractor-args", "youtube:player_client=android", // <-- THIS IS THE BOT FIX
       "--cookies", "/root/music-backend/cookies.txt",      // <-- LINKS YOUR POWERSHELL SCRIPT
       `https://www.youtube.com/watch?v=${videoId}`,
-    ], { timeout: 15000 });
+    ], { timeout: 30000, env: { ...process.env, PATH: process.env.PATH + ":/root/.deno/bin" } });
 
     const url = stdout.trim().split("\n")[0];
     if (!url) throw new Error("yt-dlp returned empty URL");
@@ -355,7 +354,7 @@ async function getArtistSongs(id, page = 0, sortBy = "popularity") {
   });
 }
 
-// ── PLAYLISTS ────────────────────────────────────────────────
+// ── PLAYLIST ────────────────────────────────────────────────
 async function getPlaylistById(id, page = 0) {
   if (!id) throw new Error("Playlist ID is required");
   const cacheKey = `playlist:${id}:${page}`;
