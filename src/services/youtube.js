@@ -176,11 +176,14 @@ async function resolveStreamUrl(videoId) {
 
   try {
     // yt-dlp: get best audio-only URL, no download
+    // yt-dlp: get best audio-only URL, no download
     const ytdlpBin = process.env.YTDLP_PATH || "yt-dlp";
     const { stdout } = await execFileAsync(ytdlpBin, [
       "--no-playlist",
-      "-f", "bestaudio[ext=m4a]/bestaudio/best",
+      "-f", "140", 
       "--get-url",
+      "--extractor-args", "youtube:player_client=android", // <-- THIS IS THE BOT FIX
+      "--cookies", "/root/music-backend/cookies.txt",      // <-- LINKS YOUR POWERSHELL SCRIPT
       `https://www.youtube.com/watch?v=${videoId}`,
     ], { timeout: 15000 });
 
@@ -286,7 +289,7 @@ async function getSongStreamUrl(id) {
   ]);
 
   const raw = meta.status === "fulfilled" ? meta.value?.name : "Unknown";
-  const name = typeof raw === "object" ? raw?.text || "Unknown" : raw;
+   const name = typeof raw === "object" ? raw?.text || "Unknown" : raw;
   if (streamUrl.status === "rejected") throw new Error(streamUrl.reason.message);
 
   return {
