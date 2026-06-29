@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const saavn = require("../services/youtube");
+const saavn = require("../services/saavn");
 
 // GET /api/home/trending?lang=hindi,english
 router.get("/trending", async (req, res) => {

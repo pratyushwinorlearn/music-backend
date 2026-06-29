@@ -4,7 +4,7 @@ const NodeCache = require("node-cache");
 // Cache: TTL of 10 minutes for most data, 1 hour for home/trending
 const cache = new NodeCache({ stdTTL: 600, checkperiod: 120 });
 
-const SAAVN_BASE = "https://saavn.dev/api";
+const SAAVN_BASE = "http://localhost:4000/api";
 
 // Axios instance with timeout + headers
 const saavnClient = axios.create({

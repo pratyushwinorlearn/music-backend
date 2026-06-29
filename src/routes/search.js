@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const saavn = require("../services/youtube");
+const saavn = require("../services/saavn");
 
 // GET /api/search?q=arijit&type=songs&page=1&limit=20
 router.get("/", async (req, res) => {
